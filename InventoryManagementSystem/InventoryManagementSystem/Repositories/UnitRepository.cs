@@ -14,11 +14,37 @@ namespace InventoryManagementSystem.Repositories
         {
             _context = context;
         }
-        public List<Unit> GetItems()
+        public List<Unit> GetItems(string SortProperty, SortOrder  sortOrder)
         {
             var units = _context.Units.ToList();
+
+            if (SortProperty.ToLower()=="name")
+            {
+                if (sortOrder==SortOrder.Ascending)
+                {
+                    units = units.OrderBy(n => n.Name).ToList();
+                }
+                else
+                {
+                    units = units.OrderByDescending(n => n.Name).ToList();
+                }
+            }
+            else
+            {
+                if (sortOrder == SortOrder.Ascending)
+                {
+                    units = units.OrderBy(n => n.Description).ToList();
+                }
+                else
+                {
+                    units = units.OrderByDescending(n => n.Description).ToList();
+                }
+            }
+
             return units;
         }
+
+
         public Unit Create(Unit unit)
         {
             _context.Units.Add(unit);

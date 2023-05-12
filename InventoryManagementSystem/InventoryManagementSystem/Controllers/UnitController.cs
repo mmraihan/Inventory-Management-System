@@ -16,9 +16,47 @@ namespace InventoryManagementSystem.Controllers
             _unitRepo = unitRepo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortExpression = "")
         {
-            var units = _unitRepo.GetItems();
+            ViewData["SortParamName"] = "name";
+            ViewData["SortParamDesc"] = "description";
+
+            ViewData["SortIconName"] = "";
+            ViewData["SortIconDesc"] = "";
+
+            var sortModel = new SortModel();
+
+            switch (sortExpression.ToLower())
+            {
+                case "name_desc":
+                    sortModel.SortedOrder = SortOrder.Descending;
+                    sortModel.SortedProperty = "name";
+                    ViewData["SortParamName"] = "name";
+                    ViewData["SortIconName"] = "fa fa-arrow-up";
+                    break;
+
+                case "description":
+                    sortModel.SortedOrder = SortOrder.Ascending;
+                    sortModel.SortedProperty = "description";
+                    ViewData["SortParamDesc"] = "description_desc";
+                    ViewData["SortIconDesc"] = "fa fa-arrow-down";
+                    break;
+
+                case "description_desc":
+                    sortModel.SortedOrder = SortOrder.Descending;
+                    sortModel.SortedProperty = "description";
+                    ViewData["SortParamDesc"] = "description";
+                    ViewData["SortIconDesc"] = "fa fa-arrow-up";
+                    break;
+
+                default:
+                    sortModel.SortedOrder = SortOrder.Ascending;
+                    sortModel.SortedProperty = "name";
+                    ViewData["SortParamName"] = "name_desc";
+                    ViewData["SortIconName"] = "fa fa-arrow-down";
+                    break;
+            }
+            var units = _unitRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder);
             return View(units);
         }
         public IActionResult Create()
