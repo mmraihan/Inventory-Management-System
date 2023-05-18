@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Tools;
 using System.Collections.Generic;
 
 namespace InventoryManagementSystem.Interfaces

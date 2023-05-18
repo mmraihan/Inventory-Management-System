@@ -1,9 +1,8 @@
-﻿using InventoryManagementSystem.Data;
-using InventoryManagementSystem.Interfaces;
+﻿using InventoryManagementSystem.Interfaces;
 using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Tools;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -18,7 +17,12 @@ namespace InventoryManagementSystem.Controllers
 
         public IActionResult Index(string sortExpression = "")
         {
-            var sortModel = ApplySort(sortExpression);
+            var sortModel = new SortModel();
+            sortModel.AddColumn("description");
+            sortModel.AddColumn("name");
+            
+            sortModel.ApplySort(sortExpression);
+            ViewData["sortModel"]=sortModel;
 
             var units = _unitRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder);
             return View(units);
@@ -62,53 +66,5 @@ namespace InventoryManagementSystem.Controllers
             var unit = _unitRepo.GetUnit(id);
             return View(unit);
         }
-
-        #region Private Methods
-
-        private SortModel ApplySort(string sortExpression)
-        {
-            ViewData["SortParamName"] = "name";
-            ViewData["SortParamDesc"] = "description";
-
-            ViewData["SortIconName"] = "";
-            ViewData["SortIconDesc"] = "";
-            var sortModel = new SortModel();
-
-            switch (sortExpression.ToLower())
-            {
-                case "name_desc":
-                    sortModel.SortedOrder = SortOrder.Descending;
-                    sortModel.SortedProperty = "name";
-                    ViewData["SortParamName"] = "name";
-                    ViewData["SortIconName"] = "fa fa-arrow-up";
-                    break;
-
-                case "description":
-                    sortModel.SortedOrder = SortOrder.Ascending;
-                    sortModel.SortedProperty = "description";
-                    ViewData["SortParamDesc"] = "description_desc";
-                    ViewData["SortIconDesc"] = "fa fa-arrow-down";
-                    break;
-
-                case "description_desc":
-                    sortModel.SortedOrder = SortOrder.Descending;
-                    sortModel.SortedProperty = "description";
-                    ViewData["SortParamDesc"] = "description";
-                    ViewData["SortIconDesc"] = "fa fa-arrow-up";
-                    break;
-
-                default:
-                    sortModel.SortedOrder = SortOrder.Ascending;
-                    sortModel.SortedProperty = "name";
-                    ViewData["SortParamName"] = "name_desc";
-                    ViewData["SortIconName"] = "fa fa-arrow-down";
-                    break;
-            }
-            return sortModel;
-        }
-
-        #endregion
-
-
     }
 }
