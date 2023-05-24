@@ -13,6 +13,8 @@ namespace InventoryManagementSystem.Tools
         public SortOrder SortedOrder { get; set; }
         public string SortedProperty { get; set; }
 
+        public string SortedExpression { get; private set; }
+
 
 
         public void AddColumn(string colName, bool isDefaultColumn = false)
@@ -44,6 +46,10 @@ namespace InventoryManagementSystem.Tools
 
         public void ApplySort(string sortExpression)
         {
+            if (sortExpression==null)
+            {
+                sortExpression = "";
+            }
 
             if (sortExpression == "")
             {
@@ -51,6 +57,7 @@ namespace InventoryManagementSystem.Tools
             }
 
             sortExpression = sortExpression.ToLower();
+            SortedExpression = sortExpression;
 
             foreach (var item in this.sortableColumns)
             {

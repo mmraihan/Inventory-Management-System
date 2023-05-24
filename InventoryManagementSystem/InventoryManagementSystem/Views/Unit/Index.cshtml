@@ -4,6 +4,8 @@
 @{
     ViewData["Title"] = "Index";
     SortModel sortModel = (SortModel) ViewData["sortModel"];
+    PagerModel pager = ViewBag.Pager;
+
 }
 
 <h1>Index</h1>
@@ -11,6 +13,30 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@* <div class="col-4 p-0 justify-content-end mt-1">
+        <form asp-action="index">
+            <span class="btn-group">
+                <input class="form-control" type="text"
+                       name="SearchText"
+                       value="@ViewBag.SearchText"
+                       placeholder="Search Key" />
+   
+                    <input class="p-1 ml-2 btn btn-sm btn-danger" style="border-radius: 10px"
+                           type="submit" value="Search" />    
+
+            </span>
+        </form>
+ </div>*@
+ <br />
+
+ <div class="row">
+    <div class="col-12">
+        <partial name="_topBar" model="@pager" />
+    </div>
+</div>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -48,3 +74,9 @@
 }
     </tbody>
 </table>
+
+ <div class="row">
+    <div class="col-12">
+        <partial name="_bottomBar" model="@pager" />
+    </div>
+</div>

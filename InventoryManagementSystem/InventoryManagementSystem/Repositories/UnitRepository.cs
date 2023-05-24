@@ -15,13 +15,13 @@ namespace InventoryManagementSystem.Repositories
         {
             _context = context;
         }
-        public List<Unit> GetItems(string SortProperty, SortOrder  sortOrder)
-        {
-            var units = _context.Units.ToList();
 
-            if (SortProperty.ToLower()=="name")
+        private List<Unit> DoSort(List<Unit> units, string SortProperty, SortOrder sortOrder)
+        {
+
+            if (SortProperty.ToLower() == "name")
             {
-                if (sortOrder==SortOrder.Ascending)
+                if (sortOrder == SortOrder.Ascending)
                 {
                     units = units.OrderBy(n => n.Name).ToList();
                 }
@@ -41,8 +41,26 @@ namespace InventoryManagementSystem.Repositories
                     units = units.OrderByDescending(n => n.Description).ToList();
                 }
             }
+            return units; 
+        }
+        public PaginatedList<Unit> GetItems(string sortProperty, SortOrder  sortOrder, string searchText="",int pageIndex=1, int pageSize=5)
+        {
 
-            return units;
+
+            List<Unit> units ;
+            
+            if (searchText !="" && searchText != null)
+            {
+                units= _context.Units.Where(n=>n.Name.Contains(searchText)).ToList();
+            }
+            else
+            {
+                units = _context.Units.ToList();
+            }
+
+            units = DoSort(units,sortProperty, sortOrder);
+            PaginatedList<Unit> retUnits = new PaginatedList<Unit>(units, pageIndex, pageSize);
+            return retUnits;
         }
 
 

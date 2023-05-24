@@ -6,7 +6,7 @@ namespace InventoryManagementSystem.Interfaces
 {
     public interface IUnit
     {
-        List<Unit> GetItems(string SortProperty, SortOrder sortOrder);
+        PaginatedList<Unit> GetItems(string SortProperty, SortOrder sortOrder, string searchText = "", int pageIndex = 1, int pageSize = 5);
         Unit GetUnit(int id); 
         Unit Create(Unit unit);
 

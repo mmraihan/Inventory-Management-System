@@ -2,7 +2,7 @@
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Tools;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Linq;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -15,7 +15,7 @@ namespace InventoryManagementSystem.Controllers
             _unitRepo = unitRepo;
         }
 
-        public IActionResult Index(string sortExpression = "")
+        public IActionResult Index(string sortExpression = "", string searchText="", int pg=1, int pageSize=5)
         {
             var sortModel = new SortModel();
             sortModel.AddColumn("description");
@@ -23,8 +23,14 @@ namespace InventoryManagementSystem.Controllers
             
             sortModel.ApplySort(sortExpression);
             ViewData["sortModel"]=sortModel;
+            ViewBag.SearchText= searchText;
+            
+            var units = _unitRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, pg,pageSize);
 
-            var units = _unitRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder);
+            var pager = new PagerModel(units.TotalRecords, pg, pageSize);
+            pager.SortExpression = sortExpression;
+            this.ViewBag.Pager = pager;
+
             return View(units);
         }
         public IActionResult Create()
