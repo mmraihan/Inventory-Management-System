@@ -133,7 +133,7 @@ namespace InventoryManagementSystem.Controllers
         public IActionResult Delete(int id)
         {
             var unit = _unitRepo.GetUnit(id);
-           
+            TempData.Keep();
             return View(unit);
         }
         [HttpPost]
