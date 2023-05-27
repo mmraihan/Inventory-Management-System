@@ -13,6 +13,8 @@ namespace InventoryManagementSystem.Interfaces
         Unit Edit(Unit unit);
 
         Unit Delete(Unit unit);
+        bool IsUnitNameExists(string name);
+        bool IsUnitNameExists(string name, int id);
 
     }
 }

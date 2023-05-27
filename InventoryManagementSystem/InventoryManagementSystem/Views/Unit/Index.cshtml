@@ -8,26 +8,20 @@
 
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
-@* <div class="col-4 p-0 justify-content-end mt-1">
-        <form asp-action="index">
-            <span class="btn-group">
-                <input class="form-control" type="text"
-                       name="SearchText"
-                       value="@ViewBag.SearchText"
-                       placeholder="Search Key" />
-   
-                    <input class="p-1 ml-2 btn btn-sm btn-danger" style="border-radius: 10px"
-                           type="submit" value="Search" />    
+<div class="container-fluid btn-group">
+    <div class="col-10">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="col-2 justify-content-end">
+        <p>
+            <a asp-action="Create" class="btn btn-success">Create New</a>
+        </p>
+    </div>
+</div>
 
-            </span>
-        </form>
- </div>*@
+<br />
  <br />
 
  <div class="row">
@@ -65,11 +59,28 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+           <td>
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </span>
+                        </a>
+
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-dark">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </span>
+                        </a>
+
+                        <a asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                        </a>
+
+                    </div>
+                </td>
         </tr>
 }
     </tbody>
@@ -80,3 +91,24 @@
         <partial name="_bottomBar" model="@pager" />
     </div>
 </div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+    function openSuccessModal(strMessage) {
+    var myDiv = document.getElementById("MyModalSuccessAlertBody");
+    myDiv.innerHTML = strMessage;
+    $('#myModalSuccess').modal('show');
+}
+
+    $(document).ready(function () {
+        var msg = "@TempData["SuccessMessage"]";
+        if (msg)
+            openSuccessModal(msg);
+
+    });
+      
+
+</script>
+}

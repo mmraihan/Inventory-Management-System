@@ -63,7 +63,6 @@ namespace InventoryManagementSystem.Repositories
             return retUnits;
         }
 
-
         public Unit Create(Unit unit)
         {
             _context.Units.Add(unit);
@@ -93,6 +92,26 @@ namespace InventoryManagementSystem.Repositories
             var unit = _context.Units.Where(c => c.Id == id).FirstOrDefault();
             return unit;
         }
-      
+
+        public bool IsUnitNameExists (string name)
+        {
+            var ct =_context.Units.Where(c => c.Name.ToLower() == name.ToLower()).Count();
+            if (ct>0)
+            {
+                return true;
+            }
+            return false;   
+        }
+
+        public bool IsUnitNameExists(string name, int id)
+        {
+            var ct = _context.Units.Where(c => c.Name.ToLower() == name.ToLower() && c.Id==id).Count();
+            if (ct > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }
