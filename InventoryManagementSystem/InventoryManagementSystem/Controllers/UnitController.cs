@@ -1,12 +1,14 @@
 ﻿using InventoryManagementSystem.Interfaces;
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Tools;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
 namespace InventoryManagementSystem.Controllers
 {
+    [Authorize]
     public class UnitController : Controller
     {
         private readonly IUnit _unitRepo;
