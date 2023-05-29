@@ -69,3 +69,54 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+/* ------------------Additional Css------------------------------ */
+.IndexDiv {
+    position: fixed;
+    background: linear-gradient(to right,#89ad4d,#a9b94d);
+    top: 8%;
+    left: 0;
+    min-height: 85%;
+    min-width: 100%;
+}
+
+.CenteredContainer {
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+}
+
+.CenteredContainer form {
+    background: linear-gradient(to left,#28347d,#19767D);
+    padding: 3em;
+    border-radius: 20px;
+}
+
+.CenteredContainer form a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+ }
+.CenteredContainer form a:hover {
+    text-shadow: 2px 2px 6px #000040;
+ }
+.CenteredContainer form input {
+    border-radius: 20px;
+ }
+
+.CenteredContainer form .btn {
+    width: 150px;
+    font-size: 1em;
+ }
+
+ .CenteredContainer form:hover {
+    margin: 8px;
+ }
+
+.CenteredContainer a, input:focus, submit:focus, button:focus {
+    outline: none;
+    margin: 2px;
+ }
+
