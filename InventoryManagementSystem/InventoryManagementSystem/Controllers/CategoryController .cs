@@ -9,13 +9,12 @@ using System.Linq;
 namespace InventoryManagementSystem.Controllers
 {
     [Authorize]
-    public class UnitController : Controller
+    public class CategoryController : Controller
     {
-        private readonly IUnit _unitRepo;
-
-        public UnitController(IUnit unitRepo)
+        private readonly ICategory _categoryRepo;
+        public CategoryController(ICategory repo)
         {
-            _unitRepo = unitRepo;
+            _categoryRepo = repo;
         }
 
         public IActionResult Index(string sortExpression = "", string searchText="", int pg=1, int pageSize=5)
@@ -28,7 +27,7 @@ namespace InventoryManagementSystem.Controllers
             ViewData["sortModel"]=sortModel;
             ViewBag.SearchText= searchText;
             
-            var units = _unitRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, pg,pageSize);
+            var units = _categoryRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, pg,pageSize);
 
             var pager = new PagerModel(units.TotalRecords, pg, pageSize);
             pager.SortExpression = sortExpression;
@@ -40,26 +39,26 @@ namespace InventoryManagementSystem.Controllers
         }
         public IActionResult Create()
         {
-            var unit= new Unit();
-            return View(unit);
+            var category= new Category();
+            return View(category);
         }
         [HttpPost]
-        public IActionResult Create(Unit unit)
+        public IActionResult Create(Category category)
         {
 
             bool bolret = false;
             string errMessage = "";
             try
             {
-                if (unit.Description.Length < 4 || unit.Description == null)
-                    errMessage = "Unit Description Must be atleast 4 Characters";
+                if (category.Description.Length < 4 || category.Description == null)
+                    errMessage = "Category Description Must be atleast 4 Characters";
 
-                if (_unitRepo.IsUnitNameExists(unit.Name) == true)
-                    errMessage = errMessage + " " + " Unit Name " + unit.Name + " Exists Already";
+                if (_categoryRepo.IsItemExists(category.Name) == true)
+                    errMessage = errMessage + " " + " Category Name " + category.Name + " Exists Already";
 
                 if (errMessage == "")
                 {
-                    unit = _unitRepo.Create(unit);
+                    category = _categoryRepo.Create(category);
                     bolret = true;
                 }
             }
@@ -71,39 +70,39 @@ namespace InventoryManagementSystem.Controllers
             {
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
-                return View(unit);
+                return View(category);
             }
             else
             {
-                TempData["SuccessMessage"] = unit.Name + " Created Successfully";
+                TempData["SuccessMessage"] = category.Name + " Created Successfully";
                 return RedirectToAction(nameof(Index));
             }
         }                  
         public IActionResult Edit(int id)
         {
-            var unit = _unitRepo.GetUnit(id);
+            var category = _categoryRepo.GetItem(id);
             TempData.Keep();
-            return View(unit);
+            return View(category);
         }
 
         [HttpPost]
-        public IActionResult Edit(Unit unit)
+        public IActionResult Edit(Category category)
         {
             bool bolret = false;
             string errMessage = "";
 
             try
             {
-                if (unit.Description.Length < 4 || unit.Description == null)
-                    errMessage = "Unit Description Must be atleast 4 Characters";
+                if (category.Description.Length < 4 || category.Description == null)
+                    errMessage = "Category Description Must be atleast 4 Characters";
 
-                if (_unitRepo.IsUnitNameExists(unit.Name, unit.Id) == true)
-                    errMessage = errMessage + "Unit Name " + unit.Name + " Already Exists";
+                if (_categoryRepo.IsItemExists(category.Name, category.Id) == true)
+                    errMessage = errMessage + "Category Name " + category.Name + " Already Exists";
 
                 if (errMessage == "")
                 {
-                    unit = _unitRepo.Edit(unit);
-                    TempData["SuccessMessage"] = unit.Name + " Unit Saved Successfully";
+                    category = _categoryRepo.Edit(category);
+                    TempData["SuccessMessage"] = category.Name + " Category Saved Successfully";
                     bolret = true;
                 }
             }
@@ -123,7 +122,7 @@ namespace InventoryManagementSystem.Controllers
             {
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
-                return View(unit);
+                return View(category);
             }
             else
                 return RedirectToAction(nameof(Index), new { pg = currentPage });
@@ -132,23 +131,23 @@ namespace InventoryManagementSystem.Controllers
 
         public IActionResult Delete(int id)
         {
-            var unit = _unitRepo.GetUnit(id);
+            var category = _categoryRepo.GetItem(id);
             TempData.Keep();
-            return View(unit);
+            return View(category);
         }
         [HttpPost]
-        public IActionResult Delete(Unit unit)
+        public IActionResult Delete(Category category)
         {
             try
             {
-                unit=_unitRepo.Delete(unit);
+                category= _categoryRepo.Delete(category);
             }
             catch (Exception ex)
             {
                 string errMessage = ex.Message;
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
-                return View(unit);
+                return View(category);
 
             }
 
@@ -157,15 +156,15 @@ namespace InventoryManagementSystem.Controllers
             if (TempData["CurrentPage"] != null)
                 currentPage = (int)TempData["CurrentPage"];
 
-            TempData["SuccessMessage"] = unit.Name + " Deleted Successfully";
+            TempData["SuccessMessage"] = category.Name + " Deleted Successfully";
 
             return RedirectToAction(nameof(Index), new { pg = currentPage });
 
         }
         public IActionResult Details(int id)
         {
-            var unit = _unitRepo.GetUnit(id);
-            return View(unit);
+            var category = _categoryRepo.GetItem(id);
+            return View(category);
         }
     }
 }

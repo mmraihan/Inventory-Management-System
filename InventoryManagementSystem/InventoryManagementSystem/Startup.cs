@@ -29,6 +29,7 @@ namespace InventoryManagementSystem
         {
             services.AddControllersWithViews();
             services.AddScoped<IUnit, UnitRepository>();
+            services.AddScoped<ICategory, CategoryRepository>();
             services.AddDbContext<InventoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                .AddEntityFrameworkStores<InventoryContext>();
