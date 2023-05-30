@@ -25,6 +25,7 @@ namespace InventoryManagementSystem.Repositories
 
         public Product Delete(Product product)
         {
+            product = PriveteGetItem(product.Code);
             _context.Products.Attach(product);
             _context.Entry(product).State = EntityState.Deleted;
             _context.SaveChanges();
@@ -128,6 +129,17 @@ namespace InventoryManagementSystem.Repositories
         //    else
         //        return IsItemExists(name);
         //}
+
+        #region Private Method
+
+        private Product PriveteGetItem(string code)
+        {
+            Product item = _context.Products.Where(u => u.Code == code).FirstOrDefault();
+            return item;
+        }
+
+
+        #endregion
 
     }
 }
