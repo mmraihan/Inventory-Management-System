@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -47,16 +48,24 @@ namespace InventoryManagementSystem.Models
         public virtual Category Categories { get; set; }
 
         [ForeignKey("ProductGroups")]
-        [Display(Name = "ProductGroup")]
+        [Display(Name = "Product Group")]
         public int? ProductGroupId { get; set; }
         public virtual ProductGroup ProductGroups { get; set; }
 
 
         [ForeignKey("ProductProfiles")]
-        [Display(Name = "ProductProfile")]
+        [Display(Name = "Product Profile")]
         public int? ProductProfileId { get; set; }
         public virtual ProductProfile ProductProfiles { get; set; }
 
+        public string PhotoUrl { get; set; } = "noimage.jpg";
+
+        [Display(Name = "Product Photo")]
+        [NotMapped]
+        public IFormFile ProductPhoto { get; set; }
+
+        [NotMapped]
+        public string BreifPhotoName { get; set; }
 
 
     }

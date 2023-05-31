@@ -2,10 +2,12 @@
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Tools;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace InventoryManagementSystem.Controllers
@@ -13,14 +15,17 @@ namespace InventoryManagementSystem.Controllers
     [Authorize]
     public class ProductController : Controller
     {
+
+        private readonly IWebHostEnvironment _webHost;
+
         private readonly IProduct _productRepo;
         private readonly IUnit _unitRepo;
         private readonly IBrand _brandRepo;
         private readonly ICategory _categoryRepo;
         private readonly IProductGroup _productGroupRepo;
         private readonly IProductProfile _productProfileRepo;
-        public ProductController(IProduct productRepo, IUnit unitRepo, IBrand brandRepo, ICategory categoryRepo, 
-            IProductGroup productGroupRepo, IProductProfile productProfileRepo)
+        public ProductController(IProduct productRepo, IUnit unitRepo, IBrand brandRepo, ICategory categoryRepo,
+            IProductGroup productGroupRepo, IProductProfile productProfileRepo, IWebHostEnvironment webHost)
         {
             _productRepo = productRepo;
             _unitRepo = unitRepo;
@@ -28,6 +33,7 @@ namespace InventoryManagementSystem.Controllers
             _categoryRepo = categoryRepo;
             _productGroupRepo = productGroupRepo;
             _productProfileRepo = productProfileRepo;
+            _webHost = webHost;
         }
 
         public IActionResult Index(string sortExpression = "", string searchText="", int pg=1, int pageSize=5)
@@ -77,11 +83,17 @@ namespace InventoryManagementSystem.Controllers
                 if (product.Description.Length < 4 || product.Description == null)
                     errMessage = "Product Description Must be atleast 4 Characters";
 
+                if (_productRepo.IsItemCodeExists(product.Code) == true)
+                    errMessage = errMessage + " " + " Product Code " + product.Code + " Exists Already";
+
                 if (_productRepo.IsItemExists(product.Name) == true)
                     errMessage = errMessage + " " + " Product Name " + product.Name + " Exists Already";
 
                 if (errMessage == "")
                 {
+                    string uniqueFileName = GetUploadedFileName(product);
+                    product.PhotoUrl = uniqueFileName;
+
                     product = _productRepo.Create(product);
                     bolret = true;
                 }
@@ -94,7 +106,9 @@ namespace InventoryManagementSystem.Controllers
             {
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
+                PopulateViewbags();
                 return View(product);
+                //return RedirectToAction(nameof(Create));
             }
             else
             {
@@ -121,8 +135,18 @@ namespace InventoryManagementSystem.Controllers
                 if (product.Description.Length < 4 || product.Description == null)
                     errMessage = "Product Description Must be atleast 4 Characters";
 
+                if (_productRepo.IsItemCodeExists(product.Name, product.Code) == true)
+                    errMessage = errMessage + " " + " Product Code " + product.Code + " Exists Already";
+
+
                 if (_productRepo.IsItemExists(product.Name, product.Code) == true)
                     errMessage = errMessage + "Product Name " + product.Name + " Already Exists";
+
+                if (product.ProductPhoto != null)
+                {
+                    string uniqueFileName = GetUploadedFileName(product);
+                    product.PhotoUrl = uniqueFileName;
+                }
 
                 if (errMessage == "")
                 {
@@ -141,7 +165,6 @@ namespace InventoryManagementSystem.Controllers
             int currentPage = 1;
             if (TempData["CurrentPage"] != null)
                 currentPage = (int)TempData["CurrentPage"];
-
 
             if (bolret == false)
             {
@@ -323,6 +346,22 @@ namespace InventoryManagementSystem.Controllers
 
 
 
+        private string GetUploadedFileName(Product product)
+        {
+            string uniqueFileName = null;
+
+            if (product.ProductPhoto != null)
+            {
+                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + product.ProductPhoto.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    product.ProductPhoto.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
 
 
 

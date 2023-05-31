@@ -93,6 +93,8 @@ namespace InventoryManagementSystem.Repositories
             Product item = _context.Products.Where(u => u.Code == code)
                 .Include(c=>c.Units)
                 .FirstOrDefault();
+
+            item.BreifPhotoName = GetBriefPhotoName(item.PhotoUrl);
             return item;
         }
         public bool IsItemExists(string name)
@@ -114,25 +116,25 @@ namespace InventoryManagementSystem.Repositories
             else
                 return true;
         }
-        //public bool IsItemCodeExists(string itemCode)
-        //{
-        //    int ct = _context.Products.Where(n => n.Code.ToLower() == itemCode.ToLower()).Count();
-        //    if (ct > 0)
-        //        return true;
-        //    else
-        //        return false;
-        //}
+        public bool IsItemCodeExists(string itemCode)
+        {
+            int ct = _context.Products.Where(n => n.Code.ToLower() == itemCode.ToLower()).Count();
+            if (ct > 0)
+                return true;
+            else
+                return false;
+        }
 
-        //public bool IsItemCodeExists(string itemCode, string name)
-        //{
-        //    if (name == "")
-        //        return IsItemCodeExists(itemCode);
-        //    var strName = _context.Products.Where(n => n.Code == itemCode).Max(nm => nm.Name);
-        //    if (strName == null || strName == name)
-        //        return false;
-        //    else
-        //        return IsItemExists(name);
-        //}
+        public bool IsItemCodeExists(string itemCode, string name)
+        {
+            if (name == "")
+                return IsItemCodeExists(itemCode);
+            var strName = _context.Products.Where(n => n.Code == itemCode).Max(nm => nm.Name);
+            if (strName == null || strName == name)
+                return false;
+            else
+                return IsItemExists(name);
+        }
 
         #region Private Method
 
@@ -142,6 +144,14 @@ namespace InventoryManagementSystem.Repositories
             return item;
         }
 
+        private string GetBriefPhotoName(string fileName)
+        {
+            if (fileName == null)
+                return "";
+
+            string[] words = fileName.Split('_');
+            return words[words.Length - 1];
+        }
 
         #endregion
 

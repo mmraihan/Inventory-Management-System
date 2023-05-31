@@ -14,5 +14,7 @@ namespace InventoryManagementSystem.Interfaces
         Product Delete(Product product);
         bool IsItemExists(string name);
         bool IsItemExists(string name, string Code);
+        bool IsItemCodeExists(string itemCode);
+        bool IsItemCodeExists(string itemCode, string name);
     }
 }

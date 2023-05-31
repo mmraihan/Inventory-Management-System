@@ -91,7 +91,7 @@
                     </div>
                 </div>
 
-                @*<div class="col-4 row">
+                <div class="col-4 row">
                     <div class="form-group col-12 justify-content-center align-middle mb-0 pb-0">
                         <img id="PreviewPhoto" src="~/images/@Model.PhotoUrl" alt="Logo Image"
                              width="300" height="300" style="border:1px ;margin-top:30px; " />
@@ -112,7 +112,7 @@
                             <label class="custom-file-label" for="customFile">Browse Photo</label>
                         </div>
                     </div>
-                </div>*@
+                </div>
 
             </div>
 
@@ -140,4 +140,105 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        $(".custom-file-input").on("change", function () {
+
+            document.getElementById('ImageError').classList.add("invisible");
+            document.getElementById('ImageError').classList.remove("visible");
+
+            var fsize = $(this)[0].files[0].size;
+
+            var fileName = $(this).val().split("\\").pop();
+
+            var fileExt = fileName.split('.').pop();
+
+
+            var error = IsImageValid(fsize, fileExt);
+            if (error != "") {
+
+                document.getElementById('ImageError').innerText = error;
+                document.getElementById('ImageError').classList.remove("invisible");
+                document.getElementById('ImageError').classList.add("visible");
+                return;
+            }
+
+
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+            document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0]);
+
+            document.getElementById('PhotoUrl').value = fileName;
+
+        });
+
+
+        function IsImageValid(fsize, fileExt) {
+
+            var error = "";
+            error = IsExtensionValid(fileExt);
+
+            if (error != "") {
+                return error;
+            }
+
+            error = IsFileSizeValid(fsize);
+            if (error != "") {
+                return error;
+            }
+
+            return "";
+
+        }
+
+        function IsExtensionValid(fileExt) {
+
+            if (fileExt != 'jpg' && fileExt != 'png') {
+                return "Only Jpeg or Png files are Accepted";
+            }
+
+            return "";
+        }
+
+        function IsFileSizeValid(fSize) {
+
+            var fSizeInKb = Math.round((fSize / 1024));
+
+            if (fSizeInKb > 100) {
+                return "Files Sized over 100 Kb are not Allowed";
+            }
+
+            return "";
+        }
+
+        function IsImageSelected() {
+
+            if (document.getElementById('PhotoUrl').value == 'Error') {
+                return "Image Not Selected To Upload";
+            }
+
+            return "";
+
+        }
+
+        function ValidateForm() {
+
+
+            var error = IsImageSelected();
+            if (error != "") {
+
+                document.getElementById('ImageError').innerText = error;
+                document.getElementById('ImageError').classList.remove("invisible");
+                document.getElementById('ImageError').classList.add("visible");
+                return false;
+            }
+
+
+            return true;
+        }
+
+
+
+    </script>
 }
