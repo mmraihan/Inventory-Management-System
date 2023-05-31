@@ -75,6 +75,10 @@ namespace InventoryManagementSystem.Repositories
             else
                 items = _context.Products
                     .Include(c => c.Units)
+                    .Include(c=>c.Brands)
+                    .Include(c=>c.Categories)
+                    .Include(c=>c.ProductGroups)
+                    .Include(c=>c.ProductProfiles)
                     .ToList();
 
             items = DoSort(items, SortProperty, sortOrder);

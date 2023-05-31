@@ -34,5 +34,30 @@ namespace InventoryManagementSystem.Models
         public int UnitId { get; set; }
         public virtual Unit Units { get; set; } // Navigation Prperty
 
+
+        [ForeignKey("Brands")]
+        [Display(Name = "Brand")]
+        public int? BrandId { get; set; }
+        public virtual Brand Brands { get; set; }
+
+
+        [ForeignKey("Categories")]
+        [Display(Name = "Category")]
+        public int? CategoryId { get; set; }
+        public virtual Category Categories { get; set; }
+
+        [ForeignKey("ProductGroups")]
+        [Display(Name = "ProductGroup")]
+        public int? ProductGroupId { get; set; }
+        public virtual ProductGroup ProductGroups { get; set; }
+
+
+        [ForeignKey("ProductProfiles")]
+        [Display(Name = "ProductProfile")]
+        public int? ProductProfileId { get; set; }
+        public virtual ProductProfile ProductProfiles { get; set; }
+
+
+
     }
 }

@@ -15,10 +15,19 @@ namespace InventoryManagementSystem.Controllers
     {
         private readonly IProduct _productRepo;
         private readonly IUnit _unitRepo;
-        public ProductController(IProduct productRepo, IUnit unitRepo)
+        private readonly IBrand _brandRepo;
+        private readonly ICategory _categoryRepo;
+        private readonly IProductGroup _productGroupRepo;
+        private readonly IProductProfile _productProfileRepo;
+        public ProductController(IProduct productRepo, IUnit unitRepo, IBrand brandRepo, ICategory categoryRepo, 
+            IProductGroup productGroupRepo, IProductProfile productProfileRepo)
         {
             _productRepo = productRepo;
             _unitRepo = unitRepo;
+            _brandRepo = brandRepo;
+            _categoryRepo = categoryRepo;
+            _productGroupRepo = productGroupRepo;
+            _productProfileRepo = productProfileRepo;
         }
 
         public IActionResult Index(string sortExpression = "", string searchText="", int pg=1, int pageSize=5)
@@ -29,6 +38,10 @@ namespace InventoryManagementSystem.Controllers
             sortModel.AddColumn("code");
             sortModel.AddColumn("price");
             sortModel.AddColumn("unit");
+            sortModel.AddColumn("brand");
+            sortModel.AddColumn("category");
+            sortModel.AddColumn("productGroup");
+            sortModel.AddColumn("productProfile");
             sortModel.AddColumn("name");
 
 
@@ -49,7 +62,7 @@ namespace InventoryManagementSystem.Controllers
         public IActionResult Create()
         {
             var product= new Product();
-            ViewBag.Units= GetUnits();
+            PopulateViewbags();
 
             return View(product);
         }
@@ -93,7 +106,7 @@ namespace InventoryManagementSystem.Controllers
         {
             var product = _productRepo.GetItem(id);
             TempData.Keep();
-            ViewBag.Units = GetUnits();
+            PopulateViewbags();
             return View(product);
         }
 
@@ -180,10 +193,20 @@ namespace InventoryManagementSystem.Controllers
         }
 
 
+
+        #region Private Methods
         private void PopulateViewbags()
         {
 
             ViewBag.Units = GetUnits();
+
+            ViewBag.Brands = GetBrands();
+
+            ViewBag.Categories = GetCategories();
+
+            ViewBag.ProductGroups = GetProductGroups();
+
+            ViewBag.ProductProfiles = GetProductProfiles();
 
         }
         private List<SelectListItem> GetUnits()
@@ -207,6 +230,105 @@ namespace InventoryManagementSystem.Controllers
 
             return listOfUnits;
         }
+
+        private List<SelectListItem> GetBrands()
+        {
+            var lstItems = new List<SelectListItem>();
+
+            PaginatedList<Brand> items = _brandRepo.GetItems("Name", SortOrder.Ascending, "", 1, 1000);
+            lstItems = items.Select(ut => new SelectListItem()
+            {
+                Value = ut.Id.ToString(),
+                Text = ut.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "----Select Brand----"
+            };
+
+            lstItems.Insert(0, defItem);
+
+            return lstItems;
+        }
+
+
+        private List<SelectListItem> GetCategories()
+        {
+            var lstItems = new List<SelectListItem>();
+
+            PaginatedList<Category> items = _categoryRepo.GetItems("Name", SortOrder.Ascending, "", 1, 1000);
+            lstItems = items.Select(ut => new SelectListItem()
+            {
+                Value = ut.Id.ToString(),
+                Text = ut.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "----Select Category----"
+            };
+
+            lstItems.Insert(0, defItem);
+
+            return lstItems;
+        }
+
+        private List<SelectListItem> GetProductGroups()
+        {
+            var lstItems = new List<SelectListItem>();
+
+            PaginatedList<ProductGroup> items = _productGroupRepo.GetItems("Name", SortOrder.Ascending, "", 1, 1000);
+            lstItems = items.Select(ut => new SelectListItem()
+            {
+                Value = ut.Id.ToString(),
+                Text = ut.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "----Select ProductGroup----"
+            };
+
+            lstItems.Insert(0, defItem);
+
+            return lstItems;
+        }
+
+
+        private List<SelectListItem> GetProductProfiles()
+        {
+            var lstItems = new List<SelectListItem>();
+
+            PaginatedList<ProductProfile> items = _productProfileRepo.GetItems("Name", SortOrder.Ascending, "", 1, 1000);
+            lstItems = items.Select(ut => new SelectListItem()
+            {
+                Value = ut.Id.ToString(),
+                Text = ut.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "----Select ProductProfile----"
+            };
+
+            lstItems.Insert(0, defItem);
+
+            return lstItems;
+        }
+
+
+
+
+
+
+        #endregion
+
+
 
     }
 }
