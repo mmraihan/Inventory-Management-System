@@ -21,6 +21,7 @@ namespace InventoryManagementSystem.Models
         public int? ExchangeCurrencyId { get; set; }
         public virtual Currency Currencies { get; set; }
 
+        [DisplayFormat(DataFormatString ="{0:0.000}", ApplyFormatInEditMode =true)]
         [Column(TypeName ="smallmoney")]
         [Required]
         public  decimal ExchangeRate { get; set; }

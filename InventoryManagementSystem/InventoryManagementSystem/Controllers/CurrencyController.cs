@@ -3,7 +3,9 @@ using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace InventoryManagementSystem.Controllers
@@ -41,6 +43,7 @@ namespace InventoryManagementSystem.Controllers
         public IActionResult Create()
         {
             var currency= new Currency();
+            ViewBag.ExchangeCurrencyId = GetCurrencies();
             return View(currency);
         }
         [HttpPost]
@@ -75,6 +78,7 @@ namespace InventoryManagementSystem.Controllers
         {
             var currency = _currencyRepo.GetItem(id);
             TempData.Keep();
+            ViewBag.ExchangeCurrencyId = GetCurrencies();
             return View(currency);
         }
 
@@ -163,6 +167,31 @@ namespace InventoryManagementSystem.Controllers
             var currency = _currencyRepo.GetItem(id);
             return View(currency);
         }
+
+        #region Private Method
+        private List<SelectListItem> GetCurrencies()
+        {
+            var listOfUnits = new List<SelectListItem>();
+
+            PaginatedList<Currency> currencies = _currencyRepo.GetItems("Name", SortOrder.Ascending, "", 1, 1000);
+            listOfUnits = currencies.Select(ut => new SelectListItem()
+            {
+                Value = ut.Id.ToString(),
+                Text = ut.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "----Select Currency----"
+            };
+
+            listOfUnits.Insert(0, defItem);
+
+            return listOfUnits;
+        }
+        #endregion
+
 
     }
 }
