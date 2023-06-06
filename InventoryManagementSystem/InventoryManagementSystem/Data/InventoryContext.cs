@@ -20,6 +20,7 @@ namespace InventoryManagementSystem.Data
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<PurchaseOrderHeader> PurchaseOrderHeaders { get; set; }
+        public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
     }
 
