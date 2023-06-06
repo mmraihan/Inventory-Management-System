@@ -4,14 +4,16 @@ using InventoryManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InventoryManagementSystem.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    partial class InventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20230606131034_Changed-ColumnName-PurchaseOrderHeaderId")]
+    partial class ChangedColumnNamePurchaseOrderHeaderId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -594,7 +596,7 @@ namespace InventoryManagementSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("InventoryManagementSystem.Models.PurchaseOrderHeader", "PurchaseOrderHeader")
-                        .WithMany("PurchaseOrderDetails")
+                        .WithMany()
                         .HasForeignKey("PurchaseOrderHeaderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -680,11 +682,6 @@ namespace InventoryManagementSystem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("InventoryManagementSystem.Models.PurchaseOrderHeader", b =>
-                {
-                    b.Navigation("PurchaseOrderDetails");
                 });
 #pragma warning restore 612, 618
         }

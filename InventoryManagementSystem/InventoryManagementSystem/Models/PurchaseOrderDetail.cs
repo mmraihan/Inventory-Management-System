@@ -12,7 +12,7 @@ namespace InventoryManagementSystem.Models
 
         [Required]
         [ForeignKey("PurchaseOrderHeader")]
-        public int PoId { get; set; }
+        public int PurchaseOrderHeaderId { get; set; }
         public virtual PurchaseOrderHeader PurchaseOrderHeader { get; private set; }
 
 

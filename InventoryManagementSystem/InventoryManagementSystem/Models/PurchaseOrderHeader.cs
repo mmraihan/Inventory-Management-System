@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -65,6 +66,9 @@ namespace InventoryManagementSystem.Models
         [Required]
         [MaxLength(500)]
         public string Remarks { get; set; } = " ";
+
+
+        public virtual List<PurchaseOrderDetail> PurchaseOrderDetails { get; set; } = new List<PurchaseOrderDetail>();
 
     }
 }
