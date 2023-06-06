@@ -1,6 +1,11 @@
 ﻿@model InventoryManagementSystem.Models.Currency
 
-<h4>Currency</h4>
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Currency</h1>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -27,8 +32,9 @@
                 <input asp-for="ExchangeRate" class="form-control" />
                 <span asp-validation-for="ExchangeRate" class="text-danger"></span>
             </div>
-            
-            <div class="form-group btn-group">
+      
+
+             <div class="form-group btn-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a class="btn btn-secondary" asp-action="index"
                    asp-route-pg="@TempData.Peek("CurrentPage")">Back</a>
@@ -37,5 +43,4 @@
         </form>
     </div>
 </div>
-
 

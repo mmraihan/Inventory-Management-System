@@ -118,6 +118,7 @@ namespace InventoryManagementSystem.Controllers
         {
             var currency = _currencyRepo.GetItem(id);
             TempData.Keep();
+            ViewBag.ExchangeCurrencyId = GetCurrencies();
             return View(currency);
         }
         [HttpPost]
@@ -165,6 +166,7 @@ namespace InventoryManagementSystem.Controllers
         public IActionResult Details(int id)
         {
             var currency = _currencyRepo.GetItem(id);
+            ViewBag.ExchangeCurrencyId = GetCurrencies();
             return View(currency);
         }
 
