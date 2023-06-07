@@ -131,6 +131,94 @@
    
                 @*-------------------------------------------------------------------*@
 
+
+
+
+
+                <div class="col-12 ml-5">
+					<table id="CodesTable" class="table table-borderless table-sm mb-0 pb-0">
+						<thead>
+							<tr>
+								<th>
+									Product 
+								</th>								
+								<th>
+									Quantity
+								</th>
+                                <th>
+								    FOB
+								</th>
+                                <th>
+								    Price 
+								</th>                                
+                                <th>
+									Unit
+								</th>							
+                                  <th style="width:60px;">
+                                       @* <button id='btnAddDetailRow' type="button" class="btn btn-sm btn-secondary visible" onclick="AddItem(this)">
+                                            Add
+                                        </button>*@
+                                          <button id='btnAddDetailRow' type="button" class="btn btn-sm btn-secondary visible">
+                                            Add
+                                        </button>
+                                   </th>
+							</tr>
+						</thead>
+
+                  <tbody>                                
+                        @for (int i = 0; i < Model.PurchaseOrderDetails.Count; i++)
+                      
+                        {                         
+                                <tr>
+									<td>
+										@*<input asp-for="@Model.PurchaseOrderDetails[i].ProductCode" class="form-control" />  *@                                      
+                                        <select asp-for="@Model.PurchaseOrderDetails[i].ProductCode" class="form-control"
+												asp-items="ViewBag.ProductList"></select>                                        
+									</td>								
+									<td>
+										<input asp-for="@Model.PurchaseOrderDetails[i].Quantity" class="form-control" />
+										<span asp-validation-for="@Model.PurchaseOrderDetails[i].Quantity" class="text-danger"></span>
+									</td>
+								    <td>
+										<input asp-for="@Model.PurchaseOrderDetails[i].Fob" class="form-control" />
+										<span asp-validation-for="@Model.PurchaseOrderDetails[i].Fob" class="text-danger"></span>
+									</td>
+                                    <td>
+										<input asp-for="@Model.PurchaseOrderDetails[i].PriceInBaseCurrency" class="form-control" />
+										<span asp-validation-for="@Model.PurchaseOrderDetails[i].PriceInBaseCurrency" class="text-danger"></span>
+									</td>
+                                    <td>
+										<input asp-for="@Model.PurchaseOrderDetails[i].UnitName" class="form-control" readonly />										
+									</td>
+                                     <td style="width:60px;">
+                                            <button id='btnremove-@i' type="button" class="btn btn-sm btn-danger visible" onclick="DeleteItem(this)">
+                                                Delete
+                                            </button>
+                                      </td>
+                                </tr>                                 
+                        }
+                    </tbody>
+                   
+
+					</table>                      
+                    
+
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 
 
