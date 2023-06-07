@@ -1,0 +1,158 @@
+﻿@model InventoryManagementSystem.Models.PurchaseOrderHeader
+
+<h4>PurchaseOrderHeader</h4>
+<hr />
+
+<div class="card">
+   <div class="card-header bg-success text-upercase text-white text-center" style="height:40px;">
+       <h6>Create Purchase Order </h6>
+   </div>
+   <hr />
+
+   <form asp-action="Create">
+       <div class="row col-12">
+           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group col-2">
+                <label asp-for="PoNumber" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <input asp-for="PoNumber" class="form-control" />
+                <span asp-validation-for="PoNumber" class="text-danger"></span>
+            </div>
+
+             <div class="form-group col-2">
+             </div>
+
+             <div class="form-group col-2">
+                <label asp-for="PoDate" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <input asp-for="PoDate" class="form-control" />
+                <span asp-validation-for="PoDate" class="text-danger"></span>
+            </div>
+
+       @*-------------------------------------------------------------------*@
+
+
+            <div class="form-group col-2">
+                <label asp-for="SupplierId" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <select asp-for="SupplierId" class ="form-control" asp-items="ViewBag.SupplierId"></select>
+            </div>
+
+
+            <div class="form-group col-2">
+            </div>       
+
+            <div class="form-group col-2">
+                <label asp-for="BaseCurrencyId" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <select asp-for="BaseCurrencyId" class ="form-control" asp-items="ViewBag.BaseCurrencyId"></select>
+            </div>
+
+            @*-------------------------------------------------------------------*@
+
+            <div class="form-group col-2">
+                <label asp-for="PoCurrencyId" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <select asp-for="PoCurrencyId" class ="form-control" asp-items="ViewBag.PoCurrencyId"></select>
+            </div>
+
+            <div class="form-group col-2">
+            </div>  
+            
+            <div class="form-group col-2">
+                <label asp-for="ExchangeRate" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <input asp-for="ExchangeRate" class="form-control" />
+                <span asp-validation-for="ExchangeRate" class="text-danger"></span>
+            </div>
+
+              @*-------------------------------------------------------------------*@
+                             
+               <div class="form-group col-2">
+                <label asp-for="QuotationNo" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <input asp-for="QuotationNo" class="form-control" />
+                <span asp-validation-for="QuotationNo" class="text-danger"></span>
+            </div>
+
+             <div class="form-group col-2">
+            </div>  
+
+              <div class="form-group col-2">
+                <label asp-for="QuotationDate" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <input asp-for="QuotationDate" class="form-control" />
+                <span asp-validation-for="QuotationDate" class="text-danger"></span>
+            </div>
+
+
+                @*-------------------------------------------------------------------*@
+                  
+
+               <div class="form-group col-2">
+                <label asp-for="PaymentTerms" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <input asp-for="PaymentTerms" class="form-control" />
+                <span asp-validation-for="PaymentTerms" class="text-danger"></span>
+            </div>
+
+            
+             <div class="form-group col-2">
+            </div>  
+
+              <div class="form-group col-2">
+                <label asp-for="Remarks" class="control-label"></label>
+            </div>
+
+            <div class="form-group col-3">
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+
+   
+                @*-------------------------------------------------------------------*@
+
+  
+
+
+            <div class="form-group btn-group col-12">
+                <div class="col-1"></div>
+                <div class="col-5">
+                     <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                </div>
+                <div class="col-5">
+                <a class="btn btn-secondary btn-block" asp-action="index"
+                   asp-route-pg="@TempData.Peek("CurrentPage")">Back</a>
+                </div>
+                 <div class="col-1"></div>
+            </div>
+
+       
+   </div>
+</form>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

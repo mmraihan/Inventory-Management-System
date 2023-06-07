@@ -36,6 +36,7 @@ namespace InventoryManagementSystem
             services.AddScoped<IProduct, ProductRepository>();
             services.AddScoped<ISupplier, SupplierRepository>();
             services.AddScoped<ICurrency, CurrencyRepositry>();
+            services.AddScoped<IPurchaseOrder, PurchaseOrderRepository>();
             services.AddDbContext<InventoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                .AddEntityFrameworkStores<InventoryContext>();
