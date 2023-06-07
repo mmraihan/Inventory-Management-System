@@ -1,15 +1,13 @@
 ﻿@model InventoryManagementSystem.Models.PurchaseOrderHeader
 
-<h4>PurchaseOrderHeader</h4>
-<hr />
 
 <div class="card">
    <div class="card-header bg-success text-upercase text-white text-center" style="height:40px;">
-       <h6>Create Purchase Order </h6>
+       <h6>Purchase Order Details </h6>
    </div>
    <hr />
 
-   <form asp-action="Create" id="RebindvalidatorsForm">
+   <form  id="RebindvalidatorsForm">
        <div class="row col-12">
            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -18,8 +16,7 @@
             </div>
 
             <div class="form-group col-3">
-                <input asp-for="PoNumber" class="form-control" />
-                <span asp-validation-for="PoNumber" class="text-danger"></span>
+                <input asp-for="PoNumber" class="form-control" readonly />               
             </div>
 
              <div class="form-group col-2">
@@ -30,8 +27,7 @@
             </div>
 
             <div class="form-group col-3">
-                <input asp-for="PoDate" class="form-control" />
-                <span asp-validation-for="PoDate" class="text-danger"></span>
+                <input asp-for="PoDate" class="form-control" readonly />
             </div>
 
        @*-------------------------------------------------------------------*@
@@ -42,7 +38,7 @@
             </div>
 
             <div class="form-group col-3">
-                <select asp-for="SupplierId" class ="form-control" asp-items="ViewBag.SupplierList"></select>
+                <select asp-for="SupplierId" class ="form-control" asp-items="ViewBag.SupplierList" readonly></select>
             </div>
 
 
@@ -54,7 +50,7 @@
             </div>
 
             <div class="form-group col-3">
-                <select asp-for="BaseCurrencyId" class ="form-control" asp-items="ViewBag.BaseCurrencyList"></select>
+                <select asp-for="BaseCurrencyId" class ="form-control" asp-items="ViewBag.BaseCurrencyList" readonly></select>
             </div>
 
             @*-------------------------------------------------------------------*@
@@ -64,7 +60,7 @@
             </div>
 
             <div class="form-group col-3">
-                <select asp-for="PoCurrencyId" class ="form-control" asp-items="ViewBag.PoCurrencyList"></select>
+                <select asp-for="PoCurrencyId" class ="form-control" asp-items="ViewBag.PoCurrencyList" readonly></select>
             </div>
 
             <div class="form-group col-2">
@@ -75,8 +71,7 @@
             </div>
 
             <div class="form-group col-3">
-                <input asp-for="ExchangeRate" class="form-control" />
-                <span asp-validation-for="ExchangeRate" class="text-danger"></span>
+                <input asp-for="ExchangeRate" class="form-control" readonly/>
             </div>
 
               @*-------------------------------------------------------------------*@
@@ -86,8 +81,8 @@
             </div>
 
             <div class="form-group col-3">
-                <input asp-for="QuotationNo" class="form-control" />
-                <span asp-validation-for="QuotationNo" class="text-danger"></span>
+                <input asp-for="QuotationNo" class="form-control" readonly />
+                
             </div>
 
              <div class="form-group col-2">
@@ -98,8 +93,7 @@
             </div>
 
             <div class="form-group col-3">
-                <input asp-for="QuotationDate" class="form-control" />
-                <span asp-validation-for="QuotationDate" class="text-danger"></span>
+                <input asp-for="QuotationDate" class="form-control" readonly />
             </div>
 
 
@@ -111,8 +105,7 @@
             </div>
 
             <div class="form-group col-3">
-                <input asp-for="PaymentTerms" class="form-control" />
-                <span asp-validation-for="PaymentTerms" class="text-danger"></span>
+                <input asp-for="PaymentTerms" class="form-control" readonly />               
             </div>
 
             
@@ -124,8 +117,7 @@
             </div>
 
             <div class="form-group col-3">
-                <input asp-for="Remarks" class="form-control" />
-                <span asp-validation-for="Remarks" class="text-danger"></span>
+                <input asp-for="Remarks" class="form-control" readonly />
             </div>
 
    
@@ -155,10 +147,6 @@
 									Unit
 								</th>							
                                   <th style="width:60px;">
-                                        <button id='btnAddDetailRow' type="button" class="btn btn-sm btn-secondary visible" onclick="AddItem(this)">
-                                            Add
-                                        </button>
-                                       
                                    </th>
 							</tr>
 						</thead>
@@ -168,30 +156,23 @@
                       
                         {                         
                                 <tr>
-									<td>
-										@*<input asp-for="@Model.PurchaseOrderDetails[i].ProductCode" class="form-control" />  *@                                      
+									<td>                                   
                                         <select asp-for="@Model.PurchaseOrderDetails[i].ProductCode" class="form-control"
-												asp-items="ViewBag.ProductList"></select>                                        
+												asp-items="ViewBag.ProductList" readonly></select>                                        
 									</td>								
 									<td>
-										<input asp-for="@Model.PurchaseOrderDetails[i].Quantity" class="form-control" />
-										<span asp-validation-for="@Model.PurchaseOrderDetails[i].Quantity" class="text-danger"></span>
+										<input asp-for="@Model.PurchaseOrderDetails[i].Quantity" class="form-control" readonly />
 									</td>
 								    <td>
-										<input asp-for="@Model.PurchaseOrderDetails[i].Fob" class="form-control" />
-										<span asp-validation-for="@Model.PurchaseOrderDetails[i].Fob" class="text-danger"></span>
+										<input asp-for="@Model.PurchaseOrderDetails[i].Fob" class="form-control" readonly />									
 									</td>
                                     <td>
-										<input asp-for="@Model.PurchaseOrderDetails[i].PriceInBaseCurrency" class="form-control" />
-										<span asp-validation-for="@Model.PurchaseOrderDetails[i].PriceInBaseCurrency" class="text-danger"></span>
+										<input asp-for="@Model.PurchaseOrderDetails[i].PriceInBaseCurrency" class="form-control" readonly />
 									</td>
                                     <td>
 										<input asp-for="@Model.PurchaseOrderDetails[i].UnitName" class="form-control" readonly />										
 									</td>
-                                     <td style="width:60px;">
-                                            <button id='btnremove-@i' type="button" class="btn btn-sm btn-danger visible" onclick="DeleteItem(this)">
-                                                Delete
-                                            </button>
+                                     <td style="width:60px;">                                         
                                       </td>
                                 </tr>                                 
                         }
@@ -208,7 +189,8 @@
             <div class="form-group btn-group col-12">
                 <div class="col-1"></div>
                 <div class="col-5">
-                     <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                  <a class="btn btn-secondary btn-block" asp-action="edit"
+                   asp-route-pg="@TempData.Peek("CurrentPage")">Edit</a>
                 </div>
                 <div class="col-5">
                 <a class="btn btn-secondary btn-block" asp-action="index"
@@ -225,80 +207,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-        function AddItem(btn) {
-
-    var table;
-    table = document.getElementById('PurchaseOrderDetailTable');
-    var rows = table.getElementsByTagName('tr');
-    var rowOuterHtml = rows[rows.length - 1].outerHTML;
-
-    var lastrowIdx = rows.length - 2;
-
-    var nextrowIdx = eval(lastrowIdx) + 1;
-
-    rowOuterHtml = rowOuterHtml.replaceAll('_' + lastrowIdx + '_', '_' + nextrowIdx + '_');
-    rowOuterHtml = rowOuterHtml.replaceAll('[' + lastrowIdx + ']', '[' + nextrowIdx + ']');
-    rowOuterHtml = rowOuterHtml.replaceAll('-' + lastrowIdx, '-' + nextrowIdx);
-
-    var newRow = table.insertRow();
-    newRow.innerHTML = rowOuterHtml;
-
-    var x = document.getElementsByTagName("INPUT");
-
-    for (var cnt = 0; cnt < x.length; cnt++) {
-        if (x[cnt].type == "text" && x[cnt].id.indexOf('_' + nextrowIdx + '_') > 0) {
-            if (x[cnt].id.indexOf('Unit') == 0)
-                x[cnt].value = '';
-        }
-        else if (x[cnt].type == "number" && x[cnt].id.indexOf('_' + nextrowIdx + '_') > 0)
-            x[cnt].value = 0;
-    }
-    
-    
-        rebindvalidators() 
-
-  
-}
-
-    function DeleteItem(btn) {
-        var table = document.getElementById('PurchaseOrderDetailTable')
-        var rows = table.getElementsByTagName('tr');
-
-        if (rows.length == 2) {
-            alert("This Raw Can't be Deleted")
-            return;
-        }
-
-
-        var btnIdx = btn.id.replaceAll('btnremove-', '');
-
-        var idOfQuantity = btnIdx + "__Quantity";
-
-        var txtQuantity = document.querySelector("[id$='" + idOfQuantity + "']");
-
-        txtQuantity.value = 0;
-
-        $(btn).closest('tr').hide();
-    } 
-
-
-    function rebindvalidators() {
-
-            var $form = $("#RebindvalidatorsForm");
-
-            $form.unbind();
-
-            $form.data("validator", null);
-
-            $.validator.unobtrusive.parse($form);
-
-            $form.validate($form.data("unobtrusiveValidation").options);
-
-}
-
-
-    </script>
 }
 

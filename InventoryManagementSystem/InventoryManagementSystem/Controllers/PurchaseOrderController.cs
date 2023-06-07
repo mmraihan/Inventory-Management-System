@@ -13,10 +13,14 @@ namespace InventoryManagementSystem.Controllers
     {
         private readonly IPurchaseOrder _purchaseOrderRepo;
         private readonly IProduct _productRepo;
-        public PurchaseOrderController(IPurchaseOrder purchaseOrderRepo, IProduct productRepo )
+        private readonly ISupplier _supplierRepo;
+        private readonly ICurrency _currencyRepo;
+        public PurchaseOrderController(IPurchaseOrder purchaseOrderRepo, IProduct productRepo, ISupplier supplierRepo, ICurrency currencyRepo)
         {
             _purchaseOrderRepo = purchaseOrderRepo;
             _productRepo = productRepo;
+            _supplierRepo = supplierRepo;
+            _currencyRepo = currencyRepo;
         }
         public IActionResult Index(string sortExpression = "", string searchText = "", int pg = 1, int pageSize = 5)
         {
@@ -45,12 +49,16 @@ namespace InventoryManagementSystem.Controllers
             purchaseOrder.PurchaseOrderDetails.Add(new PurchaseOrderDetail() { Id = 1 });
 
             ViewBag.ProductList = GetPrductList();
+            ViewBag.SupplierList = GetSuppliers();
+            ViewBag.PoCurrencyList = GetPoCurrencies();
+            ViewBag.BaseCurrencyList = GetBaseCurrencies();
             return View(purchaseOrder);
         }
         [HttpPost]
         public IActionResult Create(PurchaseOrderHeader purchaseOrderHeader)
         {
-
+            purchaseOrderHeader.PurchaseOrderDetails.RemoveAll(a => a.Quantity == 0);
+            
             bool result = false;
             string errMessage = "";
             try
@@ -76,7 +84,17 @@ namespace InventoryManagementSystem.Controllers
             }
         }
 
+        public IActionResult Details(int id)
+        {
+            var item = _purchaseOrderRepo.GetItem(id);
 
+            ViewBag.ProductList = GetPrductList();
+            ViewBag.SupplierList = GetSuppliers();
+            ViewBag.PoCurrencyList = GetPoCurrencies();
+            ViewBag.BaseCurrencyList = GetBaseCurrencies();
+
+            return View(item);
+        }
         #region Private Method
 
         private List<SelectListItem> GetPrductList()
@@ -93,13 +111,83 @@ namespace InventoryManagementSystem.Controllers
             var defItem = new SelectListItem()
             {
                 Value = "",
-                Text = "-Select Product-"
+                Text = "--Select--"
             };
 
             lstItems.Insert(0, defItem);
 
             return lstItems;
         }
+
+        private List<SelectListItem> GetSuppliers()
+        {
+            var lstSuppliers = new List<SelectListItem>();
+
+            PaginatedList<Supplier> suppliers = _supplierRepo.GetItems("Name", SortOrder.Ascending, "", 1, 1000);
+
+            lstSuppliers = suppliers.Select(sp => new SelectListItem()
+            {
+                Value = sp.Id.ToString(),
+                Text = sp.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "--- Select Supplier ---"
+            };
+
+            lstSuppliers.Insert(0, defItem);
+
+            return lstSuppliers;
+        }
+
+        private List<SelectListItem> GetPoCurrencies()
+        {
+            var lstCurrencies = new List<SelectListItem>();
+
+            PaginatedList<Currency> currencies = _currencyRepo.GetItems("Name", SortOrder.Ascending, "", 1, 1000);
+
+            lstCurrencies = currencies.Select(sp => new SelectListItem()
+            {
+                Value = sp.Id.ToString(),
+                Text = sp.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "--- Select PO Currency ---"
+            };
+
+            lstCurrencies.Insert(0, defItem);
+
+            return lstCurrencies;
+        }
+
+        private List<SelectListItem> GetBaseCurrencies()
+        {
+            var lstCurrencies = new List<SelectListItem>();
+
+            PaginatedList<Currency> currencies = _currencyRepo.GetItems("Name", SortOrder.Ascending, "BDT", 1, 1000);
+           
+            lstCurrencies = currencies.Select(sp => new SelectListItem()
+            {
+                Value = sp.Id.ToString(),
+                Text = sp.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "--- Select Base Currency ---"
+            };
+
+            lstCurrencies.Insert(0, defItem);
+
+            return lstCurrencies;
+        }
+
 
 
         #endregion
