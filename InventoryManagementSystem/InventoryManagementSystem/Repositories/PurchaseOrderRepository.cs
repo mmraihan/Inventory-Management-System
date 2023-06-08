@@ -168,12 +168,12 @@ namespace InventoryManagementSystem.Repositories
                 else
                     items = items.OrderByDescending(n => n.PoNumber).ToList();
             }
-            else if(SortProperty.ToLower() == "quotationno")
+            else if(SortProperty.ToLower() == "podate")
             {
                 if (sortOrder == SortOrder.Ascending)
-                    items = items.OrderBy(d => d.QuotationNo).ToList();
+                    items = items.OrderBy(d => d.PoDate).ToList();
                 else
-                    items = items.OrderByDescending(d => d.QuotationNo).ToList();
+                    items = items.OrderByDescending(d => d.PoDate).ToList();
             }
             else
             {

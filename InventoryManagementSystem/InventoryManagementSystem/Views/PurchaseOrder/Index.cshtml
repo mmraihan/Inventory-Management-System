@@ -1,23 +1,56 @@
 ﻿@model IEnumerable<InventoryManagementSystem.Models.PurchaseOrderHeader>
+@using InventoryManagementSystem.Tools
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    @{
+    ViewData["Title"] = "Index";
+    SortModel sortModel = (SortModel) ViewData["sortModel"];
+    PagerModel pager = ViewBag.Pager;
+
+    }
+
+    <div class="container-fluid btn-group">
+    <div class="col-10">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+
+    <div class="col-2 justify-content-end">
+        <p>
+            <a asp-action="Create" class="btn btn-success">Create New</a>
+        </p>
+    </div>
+    </div>
+
+     <br />
+     <br />
+
+     <div class="row">
+    <div class="col-12">
+        <partial name="_topBar" model="@pager" />
+    </div>
+    </div>
+   
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PoNumber)
+             <th>                 
+               <i class="@sortModel.GetColumn("PoNumber").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("PoNumber").SortExpression">
+                    PONo
+                </a>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PoDate)
+
+            <th>  
+               <i class="@sortModel.GetColumn("PoDate").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("PoDate").SortExpression">
+                    PODate
+                </a>
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Supplier)
             </th>
-           @* <th>
-                @Html.DisplayNameFor(model => model.BaseCurrency)
-            </th>*@
+    
             <th>
                 @Html.DisplayNameFor(model => model.POCurrency)
             </th>
@@ -33,12 +66,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.QuotationDate)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.PaymentTerms)
-            </th>*@
-            <th>
+            
+           @* <th>
                 @Html.DisplayNameFor(model => model.Remarks)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -54,9 +85,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Supplier.Code)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.BaseCurrency.Description)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.POCurrency.Description)
             </td>
@@ -72,15 +100,38 @@
             <td>
                 @Html.DisplayFor(modelItem => item.QuotationDate)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
+            </td>*@
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </span>
+                        </a>
+
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-dark">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </span>
+                        </a>
+
+                        <a asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                        </a>
+
+                    </div>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+ <div class="row">
+    <div class="col-12">
+        <partial name="_bottomBar" model="@pager" />
+    </div>
+ </div>

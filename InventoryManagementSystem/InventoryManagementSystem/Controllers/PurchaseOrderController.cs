@@ -25,22 +25,22 @@ namespace InventoryManagementSystem.Controllers
         public IActionResult Index(string sortExpression = "", string searchText = "", int pg = 1, int pageSize = 5)
         {
             var sortModel = new SortModel();
-            sortModel.AddColumn("poumber");
-            sortModel.AddColumn("quotationno");
+            sortModel.AddColumn("PoDate");
+            sortModel.AddColumn("PoNumber");
 
             sortModel.ApplySort(sortExpression);
             ViewData["sortModel"] = sortModel;
             ViewBag.SearchText = searchText;
 
-            var units = _purchaseOrderRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, pg, pageSize);
+            var items = _purchaseOrderRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, pg, pageSize);
 
-            var pager = new PagerModel(units.TotalRecords, pg, pageSize);
+            var pager = new PagerModel(items.TotalRecords, pg, pageSize);
             pager.SortExpression = sortExpression;
             this.ViewBag.Pager = pager;
 
             TempData["CurrentPage"] = pg;
 
-            return View(units);
+            return View(items);
         }
 
         public IActionResult Create()

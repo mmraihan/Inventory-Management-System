@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - InventoryManagementSystem</title>
+    <title>@ViewData["Title"] - StockManagementSystem</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -22,7 +22,7 @@
         <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand @menuTextColor" asp-area="" asp-controller="Home" asp-action="Index">InventoryManagementSystem</a>
+                <a class="navbar-brand @menuTextColor" asp-area="" asp-controller="Home" asp-action="Index">Stock Management System</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,7 @@
                         {
                              <li class="dropdown nav-item pr-2">
 
-                                 <a class="nav-link dropdown-toggle @menuTextColor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 <a class="nav-link dropdown-toggle  @menuTextColor"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         Masters
                                  </a>
 
@@ -72,10 +72,13 @@
                                             <a class="nav-link @menuTextColor" asp-area="" asp-controller="Currency" asp-action="Index">Currency</a>
                                         </li>
 
+                                </ul>
 
-                                       
-                                  </ul>
                              </li>
+
+                              <li class="nav-item">
+                                    <a class="nav-link @menuTextColor" asp-area="" asp-controller="PurchaseOrder" asp-action="Index">Transaction</a>
+                              </li>
                          
                         }
                           
@@ -83,9 +86,6 @@
                             <a class="nav-link @menuTextColor" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-                         <li class="nav-item">
-                            <a class="nav-link @menuTextColor" asp-area="" asp-controller="PurchaseOrder" asp-action="Index">PurchaseOrder</a>
-                        </li>
                     </ul>
                     <partial name="_LoginPartial"/>
                 </div>
@@ -127,7 +127,7 @@
 
     <footer class="border-top footer text-muted" style="background:linear-gradient(to left,#28340B,#197696);">
         <div class="container @menuTextColor">
-            &copy; 2023 - InventoryManagementSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy"class="@menuTextColor">Privacy</a>
+            &copy; 2023 - Raihan - <a asp-area="" asp-controller="Home" asp-action="Privacy"class="@menuTextColor">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
